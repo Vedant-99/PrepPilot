@@ -1,10 +1,15 @@
 import os
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
 from database import init_db
 from routes_auth import router as auth_router
+
+# The frontend folder is next to the backend folder
+FRONTEND_DIR = Path(__file__).parent.parent/"frontend"
 
 
 # Create the server application
@@ -29,3 +34,6 @@ app.include_router(auth_router)
 @app.get("/api/hello")
 def hello():
     return {"message":"PrepPilot server is running"}
+
+#  Serve the website pages (index.html, login.html .....)
+app.mount("/",StaticFiles(directory=FRONTEND_DIR, html=True), name ="frontend")
