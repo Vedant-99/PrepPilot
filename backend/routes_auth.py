@@ -1,9 +1,9 @@
 import sqlite3
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from database import get_connection
-from schemas import SignupRequest
-from security import hash_password
+from schemas import LoginRequest,SignupRequest
+from security import hash_password, verify_password
 
 # All routes in this file start with /api/auth
 router = APIRouter(prefix="/api/auth", tags =["auth"])
@@ -37,3 +37,23 @@ def signup(data: SignupRequest):
 
     return {"id":user_id,"full_name":full_name,"email":email}
 
+
+
+@router.post("/login")
+def login(data: LoginRequest, request: Request):
+    email = data.email.strip().lower()
+
+    #  Find the user with this email
+    conn = get_connection()
+    user = conn.execute("SELECT * FROM users WHERE email =?",(email,)).fetchone()
+    conn.close()
+
+    # Same message for "no such email" and "wrong password" so nobody can find out which email are registered
+
+    if user is None or not verify_password(data.password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail = "Invalid email or password")
+
+    # Rememeber the user in the signed cookie
+    request.session["user_id"] = user["id"]
+
+    return {"id":user["id"], "full_name": user["full_name"],"email":user["email"]}
