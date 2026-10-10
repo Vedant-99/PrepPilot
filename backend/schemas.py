@@ -5,4 +5,8 @@ class SignupRequest(BaseModel):
     full_name: str =Field(min_length=2, max_length=60)
     email: str =Field(max_length=120)
     password: str = Field(min_length=6, max_length=100)
-    
+
+class LoginRequest(BaseModel):
+    # The data the login page sends to the server
+    email: str
+    password: str
