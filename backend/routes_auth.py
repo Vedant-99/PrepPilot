@@ -1,7 +1,8 @@
 import sqlite3
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter,Depends, HTTPException, Request
 
 from database import get_connection
+from deps import get_current_user
 from schemas import LoginRequest,SignupRequest
 from security import hash_password, verify_password
 
@@ -57,3 +58,15 @@ def login(data: LoginRequest, request: Request):
     request.session["user_id"] = user["id"]
 
     return {"id":user["id"], "full_name": user["full_name"],"email":user["email"]}
+
+
+@router.get("/me")
+def me(user = Depends(get_current_user)):
+    # Only runs if get_current_user did not stop with a 401
+    return {"id":user["id"],"full_name":user["full_name"],"email":user["email"]}
+
+@router.post("/logout")
+def logout(request: Request):
+    # Forget the user -> clear the signed cookie
+    request.session.clear()
+    return {"message":"Logged out"}
