@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice mock interviews, analyze your resume and track your placement preparation.">
+    <title>PrepPilot</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container nav">
+            <a href="index.html" class="logo">
+                <span class="logo-mark">PP</span>
+                PrepPilot
+            </a>
+
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="menu-button" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </label>
+
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" class="nav-btn">Sign up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <div class="hero-text">
+                <span class="badge">Made for students and freshers</span>
+                <h1>Prepare smarter.<br>Get <span class="gradient-text">interview-ready.</span></h1>
+                <p>
+                    Practice mock interviews, check your resume against your target role,
+                    and track your placement preparation, all in one place.
+                </p>
+                <div class="hero-buttons">
+                    <a href="signup.html" class="btn btn-primary">Get started free</a>
+                    <a href="#how-it-works" class="btn btn-outline">See how it works</a>
+                </div>
+            </div>
+
+            <div class="preview" aria-label="Sample dashboard preview">
+                <div class="preview-bar">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    <span class="preview-label">Sample preview</span>
+                </div>
+                <div class="preview-body">
+                    <h3>Your progress</h3>
+
+                    <div class="meter">
+                        <div class="meter-top"><span>Placement readiness</span><strong>82%</strong></div>
+                        <div class="track"><div class="fill" style="--value: 82%"></div></div>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-top"><span>Resume match</span><strong>91%</strong></div>
+                        <div class="track"><div class="fill" style="--value: 91%"></div></div>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-top"><span>Mock interviews</span><strong>76%</strong></div>
+                        <div class="track"><div class="fill" style="--value: 76%"></div></div>
+                    </div>
+
+                    <div class="preview-footer">
+                        <span>Next goal</span>
+                        <strong>SQL practice</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section container" id="features">
+            <h2 class="section-title">Everything you need in one place</h2>
+            <p class="section-sub">Four tools that cover the main parts of interview preparation.</p>
+
+            <div class="feature-grid">
+                <article class="card">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></svg>
+                    </div>
+                    <h3>Mock interviews</h3>
+                    <p>Practice technical, HR and DSA questions and get feedback on your answers.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+                    </div>
+                    <h3>Resume analyzer</h3>
+                    <p>Upload your resume and see which skills are missing for your target role.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+                    </div>
+                    <h3>Placement tracker</h3>
+                    <p>Keep track of the companies you applied to and your interview rounds.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+                    </div>
+                    <h3>Coding practice</h3>
+                    <p>Solve coding questions and track the topics you have finished.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section container" id="how-it-works">
+            <h2 class="section-title">How it works</h2>
+            <p class="section-sub">Three simple steps from sign up to interview-ready.</p>
+
+            <div class="steps">
+                <article class="card step">
+                    <span class="step-number">1</span>
+                    <h3>Create your profile</h3>
+                    <p>Sign up and tell us your skills and target role.</p>
+                </article>
+                <article class="card step">
+                    <span class="step-number">2</span>
+                    <h3>Practice</h3>
+                    <p>Take mock interviews, analyze your resume and solve coding questions.</p>
+                </article>
+                <article class="card step">
+                    <span class="step-number">3</span>
+                    <h3>Improve</h3>
+                    <p>Review your feedback, fix weak areas and track your progress.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="cta container">
+            <h2>Ready to start practicing?</h2>
+            <p>Create a free account and take your first mock interview today.</p>
+            <a href="signup.html" class="btn btn-primary">Create your account</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 PrepPilot · A student project</p>
+    </footer>
+</body>
+</html>
