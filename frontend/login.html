@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | PrepPilot</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <!-- main content of the page -->
+    <main class="auth-pages">   
+        <a href="index.html"  class="logo">
+            <span> class="logo-mark">PP</span>
+            PrepPilot
+        </a>
+
+        <section class="auth-card">
+            <h1>Welcome back</h1>
+            <p class="auth-sub">Log in to continue your interview preparation.</p>
+
+            <!-- novalidate means we will check the inputs ourselve in JS -->
+            <form id="login-form" novalidate>
+                
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+
+                <!-- JS shows error here -->
+                 <p id ="form-message" class="form-message" role="alert"></p>
+
+                 <button type="submit" class="submit-btn">Log in</button>
+            </form>
+            <!-- Link for people who don't have an account yet -->
+             <p class ="auth-switch">
+                New to PrepPilot?
+                <a href="signup.html">Create an account</a>
+             </p>
+        </section>
+        <!-- Link back to landing page -->
+        <a href="index.html" class="back-link">← Back to home</a>
+    </main>
+    <script src="js/auth.js"></script>
+</body>
+</html>
