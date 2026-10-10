@@ -87,3 +87,46 @@ if(signupForm) {
         }
     });
 }
+
+
+//  Login Form
+const loginForm = document.getElementById("login-form");
+
+if(loginForm){
+    loginForm.addEventListener("submit", async (event) => {
+        // Stop browser from reloading the page
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if(!email || !password) {
+            showMessage("Please enter your email and password");
+            return;
+        }
+        // Disable the button so the user cannot click twice
+        const button= loginForm.querySelector("button");
+        button.disabled = true;
+
+        try{
+            const result = await postJson("/api/auth/login", {
+                email:email,
+                password:password,
+            });
+
+            if(result.ok){
+                showMessage(`Welcome back, ${result.data.full_name}!`, true);
+                setTimeout(()=> {
+                    window.location.href = AFTER_LOGIN_PAGE;
+                }, 500);
+            } else {
+                showMessage(getErrorText(result));
+            }
+        } catch (error){
+            showMessage("Cannot reach the server. Is it running?");
+        } finally {
+            button.disabled = false;
+        }
+    });
+    
+}
