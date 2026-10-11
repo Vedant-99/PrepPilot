@@ -1,0 +1,521 @@
+/* Variable colors:  */
+
+:root {
+    --paper: #f5efe3;      /* page background */
+    --card: #fffdf8;       /* card background */
+    --ink: #17140f;        /* dark text, borders, sidebar */
+    --muted: #6b645a;      /* soft grey-brown text */
+    --orange: #ff5b1f;     /* main accent */
+    --yellow: #ffd23f;
+    --mint: #a8e6c3;
+    --sky: #b9d8ff;
+    --pink: #ffc4d6;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    background-color: var(--paper);
+    background-image: radial-gradient(rgba(23, 20, 15, 0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    line-height: 1.6;
+}
+
+a{
+    color:inherit;
+    text-decoration: none;
+}
+
+
+/* ==Page Layout: sidebar on left, content on right */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar{
+    position: sticky;
+    top:0;
+    width: 260px;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap:28px;
+    padding: 24px 18px;
+    background: var(--ink);
+    color: #f5efe3;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap:10px;
+    padding: 0 8px;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/* logo-mark: small "PP" square */
+.logo-mark{
+    display: grid;
+    place-items: center;
+    width:36px;
+    height:36px;
+    border-radius: 8px;
+    background: var(--orange);
+    font-size:14px;
+    color:var(--ink);
+    transform:rotate(-6deg);
+}
+
+
+/* === Menu === */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    border-radius: 8px;
+    color: #b9b2a5;
+    font-size:15px;
+}
+
+/* the page we are on right now */
+.menu-item.active {
+    background: var(--yellow);
+    color:var(--ink);
+    font-weight: 700;
+}
+
+.menu-item.disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.soon {
+    font-style :normal;
+    font-size : 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px dashed #7d766a;
+    color:#b9b2a5;
+}
+
+
+/* === User box at the bottom of the sidebar === */
+.user-box {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns:  auto 1fr;
+    gap: 6px 12px;
+    align-items:  center;
+    padding: 14px;
+    border: 2px solid #3a352c;
+    border-radius: 12px;
+}
+
+/* Round circle with the user's initials  */
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+
+/* Long names or emails get "...." instead of breaking the box */
+.user-text strong,
+.user-text span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-text span {
+    font-size: 12px;
+    color: #b9b2a5;
+}
+
+/* Logout button takes the full row under the avatar */
+
+.logout-btn {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+    padding: 9px;
+    border: 2px solid #5a5446;
+    border-radius: 8px;
+    background: transparent;
+    color: #f5efe3;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--ink);
+}
+
+
+/* Main content: greeting at the top */
+.content {
+    flex: 1;
+    min-width: 0;
+    max-width: 1020px;
+    padding: 40px 44px 60px;
+}
+
+/* Date shown like a stamp */
+.date {
+    display: inline-block;
+    padding: 3px 12px;
+    border: 2px solid var(--ink);
+    border-radius : 6px;
+    background: var(--yellow);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+
+}
+
+
+/* Big serif greeting: the main "differnt" things on this page */
+.topbar h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 46px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin: 14px 0 6px;
+
+}
+.subtitle {
+    color: var(--muted);
+    margin-bottom: 32px;
+}
+
+/* Cards: thick border + hard shadow (no blur) */
+.grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 26px;
+}
+
+.card {
+    padding: 26px;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 6px 6px 0 var(--ink);
+
+}
+
+.card h2,
+.launch h2 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 22px;
+    margin-bottom: 18px;
+
+}
+
+.card-note {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+
+}
+
+/* Readiness gauge ( round meter with tick marks ) */
+.gauge-wrap {
+    position:relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+/* Rotate so the arc starts at the top, not at the right side */
+.gauge {
+    width:100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.gauge circle {
+    fill:none;
+}
+
+/* Small tick marks around the outside */
+.gauge-ticks {
+    stroke: var(--ink);
+    stroke-width: 6;
+    stroke-dasharray: 1.5 7.7;
+}
+
+/*  the ring behind the coloured arc */
+.gauge-track {
+    stroke: #ece4d3;
+    stroke-width: 16;
+}
+
+
+/* Colored arc. Full length = 440 (2 x 3.14 x 70).
+   Offset 440 = empty. JavaScript will lower it when we have a score. */
+.gauge-fill {
+    stroke: var(--orange);
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+    transition: stroke-dashoffset 0.8s ease;
+}
+
+/*  the number in the middle of the ring */
+.gauge-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.gauge-value {
+    font-family : Georgia, 'Times New Roman', serif;
+    font-size: 46px;
+    font-weight: 700;
+}
+
+.gauge-label{
+    font-size: 12px;
+    color: var(--muted);
+}
+
+
+/* === Flight plan: like a boarding pass, steps joined by a dashed line === */
+.plan {
+    list-style :none;
+}
+.step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 22px;
+}
+
+.step:last-child {
+    padding-bottom: 0;
+}
+
+/*  The dashed line between steps (not after the last one) */
+.step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 26px;
+    bottom: 2px;
+    border-left: 2px dashed #b8ae98;
+
+}
+/* The circle for each step */
+.dot {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--card);
+}
+
+/* Done= green with a tick, next = orange */
+.step.done .dot {
+    background: var(--mint);
+    position: relative;
+}
+
+.step.done .dot::after {
+    content: "\2713";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.step.next .dot {
+    background: var(--orange);
+    box-shadow: 0 0 0 5px rgba(255, 91, 31, 0.22);
+
+}
+.step div {
+    flex: 1;
+}
+.step p {
+    font-size:14px;
+    color: var(--muted);
+}
+
+
+/*  Future steps have a dimmer title */
+.step:not(.done):not(.next) strong {
+    color: var(--muted);
+}
+
+
+/* Small label: "Up next" or "Soon" */
+.tag {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* Plain outline version used for soon */
+.tag.muted {
+    background: transparent;
+    border: 2px dashed #b8ae98;
+    color: var(--muted);
+}
+
+/*  === Launch pad : 4 coloured tiles === */
+.launch {
+    margin-top: 40px;
+}
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 20px;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* Each tile gets its own color  */
+.tile:nth-child(1) { background: var(--yellow);}
+.tile:nth-child(2) { background: var(--sky);}
+.tile:nth-child(3) { background: var(--mint);}
+.tile:nth-child(4) { background: var(--pink);}
+
+.tile-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.tile p{
+    font-size : 13px;
+    color: #3b362d;
+    margin-bottom: 8px;
+}
+
+/* Push the "Soon" tag to the bottom of the tile  */
+.tile .tag {
+    margin-top: auto;
+    border-color: var(--ink);
+    border-style: solid;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ====  Tablet:  cards stack, tiles become 2 per row ====*/
+@media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .tiles {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .layout{
+        flex-direction: column;
+    }
+    .layout{
+        flex-direction: column;
+    }
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+    .menu {
+        display: none;
+    }
+    .user-box {
+        margin-top: 0;
+        display: flex;
+        padding: 6px 10px;
+        border: none;
+    }
+    .user-text {
+        display: none;
+    }
+    .logout-btn{
+        margin-top: 0;
+        padding: 7px 14px;
+    }
+
+    .content {
+        padding: 28px 16px 48px;
+    }
+    .topbar h1 {
+        font-size: 34px;
+    }
+}
+
+/* Small phones:  tiles go one per row */
+
+@media (max-width: 480px) {
+    .tiles {
+        grid-template-columns: 1fr;
+    }
+}
