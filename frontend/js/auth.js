@@ -1,5 +1,5 @@
 // Where we go after the successfull login 
-const AFTER_LOGIN_PAGE = "index.html";
+const AFTER_LOGIN_PAGE = "dashboard.html";
 
 //  Helpers -> used by both forms
 
