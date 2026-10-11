@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | PrepPilot</title>
+    <!-- dashboard.css give sidebar and layoyut -->
+     <link rel="stylesheet" href="css/dashboard.css">
+     <!-- profile.css styles the form -->
+      <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- side bar -->
+         <aside class="sidebar">
+            <a href="index.html" class="logo">
+                <span class="logo-mark"></span>
+                PrepPilot
+            </a>
+
+            <nav class="menu">
+                <a href="dashboard.html" class="menu-item">Dashboard</a>
+                <a href="profile.html" class="menu-item active">Profile</a>
+                <span class="menu-item disabled">Mock Interview<em class ="soon">Soon</em></span>
+                <span class="menu-item disabled">Resume Check<em class ="soon">Soon</em></span>
+                <span class="menu-item disabled">Coding Practice<em class ="soon">Soon</em></span>
+                <span class="menu-item disabled">Placement Tracker<em class ="soon">Soon</em></span>
+            </nav>
+
+            
+            <div class="user-box">
+                <div class="avatar" id="user-initials">?</div>
+                <div class="user-text">
+                    <strong id="user-name">Loading...</strong>
+                    <span id="user-email"></span>
+                </div>
+                <button type="button" id="logout-btn" class="logout-btn">Log out</button>
+            </div>
+        </aside>
+        <main class="content">
+            <header class="topbar">
+                <p class="date">Step 2 of 4</p>
+                <h1>Your profile</h1>
+                <p class="subtitle">Tell PrepPilot what you are aiming for. We use this to pick your interview questions.</p>
+            </header>
+
+            <!-- Profile form -->
+             <form id="profile-form" class="card profile-card" novalidate>
+
+                <!-- Target role -->
+                 <div class="field">
+                    <label for="taregt-role">Target role</label>
+                    <select name="taregt-role" id="taregt-role">
+                        <option value="">Choose a role</option>
+                        <option value="Frontend Developer">Frontend Developer</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Full Stack Developer">Full Stack Developer</option>
+                        <option value="Software Engineer">Software Engineer</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                    </select>
+                 </div>
+
+                 <!-- Year of study -->
+                  <div class="field">
+                    <label for="study-year">Year of Study</label>
+                    <select name="study_year" id="study_year">
+                        <option value="">Choose your year</option>
+                        <option value="1">1st year</option>
+                        <option value="2">2nd year</option>
+                        <option value="3">3rd year</option>
+                        <option value="4">4th year</option>
+                        <option value="0">Already graduated</option>
+                    </select>
+                  </div>
+
+                  <!-- Skills  -->
+                                   <!-- Skills: each checkbox is shown as a clickable chip -->
+                <fieldset class="field">
+                    <legend>Skills you already know</legend>
+                    <p class="hint">Tick only what you can talk about in an interview. Not in the list? Add it below.</p>
+
+                    <!-- All chips live here, JavaScript adds custom ones at the end -->
+                    <div class="chips" id="skills-list">
+                        <label class="chip"><input type="checkbox" name="skills" value="HTML"><span>HTML</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="CSS"><span>CSS</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="JavaScript"><span>JavaScript</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="TypeScript"><span>TypeScript</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="React"><span>React</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Node.js"><span>Node.js</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Python"><span>Python</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Java"><span>Java</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="C++"><span>C++</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="SQL"><span>SQL</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="MongoDB"><span>MongoDB</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Git"><span>Git</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Docker"><span>Docker</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="AWS"><span>AWS</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Linux"><span>Linux</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Machine Learning"><span>Machine Learning</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="AI / Deep Learning"><span>AI / Deep Learning</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="DSA"><span>DSA</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="OOP"><span>OOP</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="DBMS"><span>DBMS</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Operating Systems"><span>Operating Systems</span></label>
+                        <label class="chip"><input type="checkbox" name="skills" value="Computer Networks"><span>Computer Networks</span></label>
+                    </div>
+
+                    <!-- Add your own skill: profile.js handles the button -->
+                    <div class="add-skill">
+                        <input type="text" id="custom-skill" placeholder="Another skill, e.g. Flutter" maxlength="30">
+                        <button type="button" id="add-skill-btn" class="add-btn">Add</button>
+                    </div>
+                </fieldset>1
+
+
+                   <!-- Success or error text appear here -->
+                    <p id="form-message" class="form-message"></p>
+                    <button type="submit" class="save-btn">Save profile</button>
+             </form>
+        </main>
+    </div>
+    <script src="js/profile.js"></script>
+</body>
+</html>
