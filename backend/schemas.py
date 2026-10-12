@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from typing import Literal
+from pydantic import BaseModel, Field, field_validator
 
 class SignupRequest(BaseModel):
     # The data signup page sends to the server
@@ -10,3 +11,31 @@ class LoginRequest(BaseModel):
     # The data the login page sends to the server
     email: str
     password: str
+
+# What the profile form is allowed to send
+class ProfileRequest(BaseModel):
+    # Only these roles are accepted (same as the dropdown)
+    target_role: Literal[
+        "Frontend Developer",
+        "Backend Developer",
+        "Full Stack Developer",
+        "Software Engineer",
+        "Data Analyst",
+    ]
+    study_year: int = Field(ge=0, le=4)         # 0 = already graduated
+    skills: list[str] = Field(max_length=30)    # at most 30 skills
+
+    # Clean the skills list: trim spaces, drop duplicates (AWS = aws)
+    @field_validator("skills")
+    @classmethod
+    def clean_skills(cls, skills):
+        cleaned = []
+        seen = set()
+        for skill in skills:
+            skill = skill.strip()
+            if not skill or len(skill) > 30:
+                raise ValueError("Each skill must be 1 to 30 characters")
+            if skill.lower() not in seen:
+                seen.add(skill.lower())
+                cleaned.append(skill)
+        return cleaned
