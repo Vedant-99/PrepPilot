@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from database import init_db
 from routes_auth import router as auth_router
+from routes_profile import router as profile_router
 
 # The frontend folder is next to the backend folder
 FRONTEND_DIR = Path(__file__).parent.parent/"frontend"
@@ -29,6 +30,9 @@ app.add_middleware(
 
 # Add the signup and login route to the app
 app.include_router(auth_router)
+
+# Add profile route to the app
+app.include_router(profile_router)
 
 # Test route: open /api/hello to check that the server is running
 @app.get("/api/hello")
