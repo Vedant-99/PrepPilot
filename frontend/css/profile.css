@@ -1,0 +1,159 @@
+/* Profile form  */
+.profile-card {
+    max-width: 640px;
+}
+
+/* One block of the form -> label +input */
+.field {
+    display: block;
+    border:none;
+    margin-bottom: 26px;
+}
+
+/* Only the direct label (Target, role, year) not the skill chips */
+.field > label,
+.field legend {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.hint {
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* Dropdowns */
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--ink);
+    font: inherit;
+    cursor: pointer;
+}
+select:focus {
+    outline: none;
+    box-shadow: 3px 3px 0 var(--orange);
+}
+
+/* Skills chips */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.chip {
+    cursor: pointer;
+}
+
+.chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.chip span {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, transform 0.15s;
+}
+
+.chip:hover span {
+    transform: translateY(-3px);
+}
+
+/*  Ticked chip turned yellow  */
+.chip input:checked+span {
+    background: var(--yellow);
+    font-weight: 700;
+    box-shadow: 2px 2px 0 var(--ink);
+}
+
+/*  Keyboard users: shows a ring when a chip is focused */
+.chip input:focus-visible + span {
+    outline: 3px solid var(--orange);
+    outline-offset: 2px;
+}
+
+
+/* Add your own skill row: text box +Add button */
+.add-skill {
+    display: flex;
+    gap:10px;
+    margin-top: 18px;
+}
+
+.add-skill input {
+    flex:1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--ink);
+    font: inherit;
+}
+
+.add-skill input:focus {
+    outline:none;
+    box-shadow: 3px 3px 0 var(--orange);
+}
+
+.add-btn {
+    padding: 10px 22px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    background: var(--sky);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.add-btn:hover {
+    background: var(--yellow);
+}
+
+/*  Meassage + save button  */
+.form-message {
+    min-height: 22px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #c0310b;
+}
+
+/* Green text for "Profile saved " */
+.form-message.success {
+    color: #1b7a43;
+}
+
+.save-btn {
+    padding: 13px 28px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    background: var(--orange);
+    color: var(--ink);
+    font: inherit;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.1s,;
+}
+/* Button : "pressess down"  on hover */
+.save-btn:hover {
+    transform: translate(2px 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+}
+
+/*  While saving , JS disables the button  */
+.save-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
