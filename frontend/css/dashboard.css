@@ -519,3 +519,14 @@ a{
         grid-template-columns: 1fr;
     }
 }
+
+/* Link inside the flight plan step: look like normal text, not a blue link */
+.step strong a {
+    color: inherit;          /* use the same color as the text around it */
+    text-decoration: none;   /* remove the underline */
+}
+
+/* Show an underline only when the mouse is over it */
+.step strong a:hover {
+    text-decoration: underline;
+}
