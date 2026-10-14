@@ -36,6 +36,16 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS questions (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            category    TEXT NOT NULL CHECK (category IN ('technical', 'hr', 'dsa')),
+            topic       TEXT NOT NULL,
+            difficulty  TEXT NOT NULL CHECK (difficulty IN ('easy', 'medium', 'hard')),
+            question    TEXT NOT NULL UNIQUE,
+            key_points  TEXT NOT NULL
+        )
+    """) 
     conn.commit()
     conn.close()
 
