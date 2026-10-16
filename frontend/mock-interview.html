@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Room | PrepPilot</title>
+</head>
+<body>
+    <div class="room">
+        <!-- Top bar: logo on the left and way out on the right -->
+         <header class="room-bar">
+            <a href="dashboard.html" class="room-logo">
+                <span class="room-logo-mark">PP</span>
+                PrepPilot
+            </a>
+            <a href="dashboard.html" class="leave-link">Leave room</a>
+         </header>
+         <main class="stage">
+            <!-- Meassage line: errors like "no questions found" show here -->
+            <p class="mock-message" id="mock-message" hidden></p>
+
+            <!-- Part 1: choose the round -->
+             <section class="panel" id="setup-card">
+                <p class="eyebrow">Interview room</p>
+                <h1>Pick your round</h1>
+                <p class="panel-note">Real questions. You write the answer, then check the key points. No fake scores.</p>
+
+                <div class="setup-row">
+                    <label for="category-select">Category</label>
+                    <select id="category-select">
+                        <option value="">All</option>
+                        <option value="technical">Technical</option>
+                        <option value="dsa">DSA</option>
+                        <option value="hr">HR</option>
+                    </select>
+                </div>
+                <div class="setup-row">
+                    <label for="difficulty-select">Difficulty</label>
+                    <select  id="difficulty-select">
+                        <option value="">All</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <button type ="button" id="start-btn" class="room-btn">Enter the room</button>
+             </section>
+
+             <!-- Part 2: the interview (hidden until the button is clicked) -->
+              <section class="interview" id="question-card" hidden>
+
+                <!-- Progess: dots are added by JS, text is same info in words -->
+                 <div class="progress">
+                    <div class="progress-dots" id="progress-dots"></div>
+                    <p class="progress-text" id="progress-text">Question 1 out of 1</p>
+                 </div>
+
+                 <!-- The interviewer asks the question in a speech bubble -->
+
+                 <div class="interviewer-row">
+                    <div class="interviewer-avatar" aria-hidden="true">?</div>
+                    <div class="bubble">
+                        <div class="question-tags">
+                            <span class="q-tag" id="q-category"></span>
+                            <span class="q-tag" id="q-topic"></span>
+                            <span class="q-tag" id="q-difficulty"></span>
+                        </div>
+                        <h2 class="question-text" id="question-text"></h2>
+                        <!-- Reads the question aloud -->
+                        <button type="button" id="listen-btn" class="room-btn ghost small">Hear question</button>
+                    </div>
+                </div>
+
+                <!-- Your turn: type the answer here -->
+                 <div class="your-turn">
+                    <label for="answer-box" class="turn-label">Your turn</label>
+                    <textarea id="answer-box" rows="7" placeholder="Answer like you would say it in a real interview..."></textarea>
+                    
+                    <!-- Mic: turns your voice into text inside the answer box -->
+                    <div class="voice-row">
+                        <button type="button" id="mic-btn" class="room-btn ghost">Start speaking</button>
+                        <span class="voice-status" id="voice-status">Mic is off. You can also type.</span>
+                    </div>
+
+                    <!-- Key points appear only after clicking the button -->
+                     <div class="key-points" id="key-points-box" hidden>
+                        <strong>A good answer covers</strong>
+                        <p id="key-points-text"></p>
+                     </div>
+                     <div class="button-row">
+                        <button type="button" id="show-points-btn" class="room-btn ghost">Show key points</button>
+                        <button type="button" id="next-btn" class="room-btn">Next question</button>
+                     </div>
+                 </div>
+              </section>
+
+              <!-- Part 3: Finish message -->
+               <section class="panel" id="finish-card" hidden>
+                    <p class="eyebrow">Round complete</p>
+                    <h2>Good practice</h2>
+                    <p id="finsih-text"></p>
+                    <button type="button" id="restart-btn" class="room-btn">Practice again</button>
+               </section>
+         </main>
+    </div>
+    <script src="js/mock-interview.js"></script>
+    
+</body>
+</html>
