@@ -530,3 +530,15 @@ a{
 .step strong a:hover {
     text-decoration: underline;
 }
+/* The tile is a link now: keep it looking like the other tiles */
+a.tile {
+    color: inherit;           /* no blue link color */
+    text-decoration: none;    /* no underline */
+    display: block;           /* fills the tile area like a div did */
+}
+
+/* Mock interview in the flight plan looks like the profile step link */
+.step strong a {
+    color: inherit;
+    text-decoration: none;
+}
