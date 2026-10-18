@@ -1,5 +1,5 @@
 from typing import Literal
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 class SignupRequest(BaseModel):
     # The data signup page sends to the server
@@ -39,3 +39,20 @@ class ProfileRequest(BaseModel):
                 seen.add(skill.lower())
                 cleaned.append(skill)
         return cleaned
+
+#  What the mock interview page sends when a round is finished
+class AttemptRequest(BaseModel):
+    # all means user did not pick a category/ difficulty 
+    category: Literal["all","technical","dsa","hr"]
+    difficulty: Literal["all","easy","medium","hard"]
+
+    questions_count: int = Field(ge=1,le=20) #atleast 1 question in a round
+    points_ticked: int = Field(ge=0,le=200) # key points the user ticked
+    points_total: int = Field(ge=0,le=200) # key points that were shown
+
+    # Ticked points can never be more than total points
+    @model_validator(mode="after")
+    def check_points(self):
+        if self.points_ticked > self.points_total:
+            raise ValueError("points_ticked cannot be more than points_total")
+        return self
