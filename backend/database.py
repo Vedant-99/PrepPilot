@@ -46,6 +46,22 @@ def init_db():
             key_points  TEXT NOT NULL
         )
     """) 
+    # Practice history: one row for each finished round of mock interview
+    # category is 'all' when the user did not pick a category (same for difficulty)
+    # points_ticked / points_total = key points the user ticked in the self-check
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS attempts (
+            id               INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id          INTEGER NOT NULL,
+            category         TEXT NOT NULL,
+            difficulty       TEXT NOT NULL,
+            questions_count  INTEGER NOT NULL,
+            points_ticked    INTEGER NOT NULL,
+            points_total     INTEGER NOT NULL,
+            created_at       TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
     conn.commit()
     conn.close()
 
