@@ -27,6 +27,12 @@ const showPointsBtn = document.getElementById("show-points-btn");
 const nextBtn = document.getElementById("next-btn");
 
 const finishText = document.getElementById("finish-text");
+
+// A line under the key points: "You covered 2 of 4 points" (made here, not in the HTML)
+const keyPointsResult = document.createElement("p");
+keyPointsResult.className = "points-result";
+keyPointsBox.appendChild(keyPointsResult);
+
 const restartBtn = document.getElementById("restart-btn");
 
 //  Things we remember while page opens
@@ -127,6 +133,7 @@ function showQuestion() {
     answerBox.value = "";
     keyPointsBox.hidden = true;
     keyPointsText.textContent = "";
+    keyPointsResult.textContent = "";
     showPointsBtn.disabled = false;
     voiceStatus.textContent = "Mic is off. You can also type.";
 
@@ -149,6 +156,12 @@ function drawDots() {
     }
 }
 
+// Count the ticked boxes and show "You covered X of Y points"
+function updateResult() {
+    const allBoxes = keyPointsText.querySelectorAll("input[type=checkbox]");
+    const tickedBoxes = keyPointsText.querySelectorAll("input[type=checkbox]:checked");
+    keyPointsResult.textContent = `You covered ${tickedBoxes.length} of ${allBoxes.length} points. This is your own check, not an AI score.`;
+}
 
 // ---------- Key points (asked from the server only when clicked) ----------
 async function showKeyPoints() {
@@ -160,7 +173,27 @@ async function showKeyPoints() {
             return;
         }
         const data = await response.json();
-        keyPointsText.textContent = data.key_points;
+        // key_points is one long text, and ";" separates the points
+        const points = data.key_points.split(";").map((p) => p.trim()).filter((p) => p !== "");
+
+        // Remove old boxes, then make one tick box for each point
+        keyPointsText.innerHTML = "";
+        points.forEach((point) => {
+            const label = document.createElement("label");
+            label.className = "point-item";
+
+            const box = document.createElement("input");
+            box.type = "checkbox";
+            box.addEventListener("change", updateResult);   // count again on every tick
+
+            const words = document.createElement("span");
+            words.textContent = point;   // textContent is safe: text only
+
+            label.appendChild(box);
+            label.appendChild(words);
+            keyPointsText.appendChild(label);
+        });
+        updateResult();   // shows "0 of X" at the start
         keyPointsBox.hidden = false;
         showPointsBtn.disabled = true;
     } catch (error) {
