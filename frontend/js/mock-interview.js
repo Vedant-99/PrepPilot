@@ -41,7 +41,7 @@ let questions = [];                 // the questions of this round
 let currentIndex = 0;               // which questions of this round
 let recognition = null;             // the speech-to-text helper
 let isListening = false;            //true while mic is on
-
+let pointsResults = [];     //for each question: how many key points were ticked and shown  
 // Small helpers
 function showMessage(text) {
     if(!text) {
@@ -109,6 +109,7 @@ async function startInterview() {
         // Mix order, then keep only the first few questions
         questions = data.questions.sort(() => Math.random() -0.5).slice(0, QUESTIONS_PER_ROUND);
         currentIndex =0;
+        pointResults = [];   // new round, so forget the old results
 
         showOnly(questionCard);
         showQuestion();
@@ -161,6 +162,9 @@ function updateResult() {
     const allBoxes = keyPointsText.querySelectorAll("input[type=checkbox]");
     const tickedBoxes = keyPointsText.querySelectorAll("input[type=checkbox]:checked");
     keyPointsResult.textContent = `You covered ${tickedBoxes.length} of ${allBoxes.length} points. This is your own check, not an AI score.`;
+    
+    // Remember this question's result, so we can add everything up at the end
+    pointResults[currentIndex] = { ticked: tickedBoxes.length, total: allBoxes.length };
 }
 
 // ---------- Key points (asked from the server only when clicked) ----------
@@ -212,8 +216,43 @@ function goNext() {
     }
 }
 
+
+// ---------- Save the finished round (so the dashboard can show real numbers) ----------
+async function saveRound() {
+    // Add up the ticked and shown points of all questions
+    // A question where "Show key points" was never clicked has no result, so we skip it
+    let ticked = 0;
+    let total = 0;
+    for (let i = 0; i < questions.length; i++) {
+        if (pointResults[i]) {
+            ticked += pointResults[i].ticked;
+            total += pointResults[i].total;
+        }
+    }
+
+    try {
+        const response = await fetch("/api/attempts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                category: categorySelect.value || "all",       // empty choice means "all"
+                difficulty: difficultySelect.value || "all",
+                questions_count: questions.length,
+                points_ticked: ticked,
+                points_total: total,
+            }),
+        });
+        if (!response.ok) {
+            showMessage("Your round could not be saved. Your practice still counted for you.");
+        }
+    } catch (error) {
+        showMessage("Cannot reach the server, so this round was not saved.");
+    }
+}
+
 function finishRound() {
     stopVoice();
+    saveRound();    //runs in background, the finish card shows at once
     finishText.textContent = `You practiced ${questions.length} questions. Run another round with a different category to keep improving.`;
     showOnly(finishCard);
 }
