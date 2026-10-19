@@ -9,6 +9,7 @@ from database import init_db
 from routes_auth import router as auth_router
 from routes_profile import router as profile_router
 from routes_questions import router as questions_router
+from routes_attempts import router as attempts_router
 
 # The frontend folder is next to the backend folder
 FRONTEND_DIR = Path(__file__).parent.parent/"frontend"
@@ -37,6 +38,9 @@ app.include_router(profile_router)
 
 # Add questions bank route to the app
 app.include_router(questions_router)
+
+# Add practice history route to the app
+app.include_router(attempts_router)
 
 # Test route: open /api/hello to check that the server is running
 @app.get("/api/hello")
