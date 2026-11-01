@@ -10,6 +10,7 @@ from routes_auth import router as auth_router
 from routes_profile import router as profile_router
 from routes_questions import router as questions_router
 from routes_attempts import router as attempts_router
+from seed_questions import seed_questions
 
 # The frontend folder is next to the backend folder
 FRONTEND_DIR = Path(__file__).parent.parent/"frontend"
@@ -20,6 +21,10 @@ app = FastAPI(title ="PrepPilot API")
 
 # Create the database tables when the server starts
 init_db()
+
+#  Fill the question bank when the server starts
+#  Safe to run many times, because already saved questions are skipped
+seed_questions()
 
 # Sessions: a signed cookie remembers who is logged in (valid for 7 days)
 # On a real server, set the long random SECRET_KEY enviornment variable
