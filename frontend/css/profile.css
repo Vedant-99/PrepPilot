@@ -157,3 +157,47 @@ select:focus {
     opacity: 0.6;
     cursor: wait;
 }
+/* "What next?" box: shown after the profile is saved */
+.next-box {
+    max-width: 640px;
+    margin-top: 26px;
+    background: var(--mint);   /* green box, so it feels like good news */
+}
+
+.next-box h2 {
+    margin-bottom: 6px;
+}
+
+.next-box p {
+    margin-bottom: 18px;
+    color: #3b362d;
+}
+
+/* The two buttons sit side by side (and under each other on small screens) */
+.next-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+/* One button: same thick border and hard shadow as the rest of the app */
+.next-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* The main action is orange */
+.next-btn.primary {
+    background: var(--orange);
+}
+
+.next-btn:hover {
+    background: var(--yellow);
+}
