@@ -53,6 +53,50 @@ QUESTIONS = [
     ("hr", "Failure", "medium",
      "Tell me about a time you failed.",
      "Use STAR; own the mistake and do not blame others; explain what you changed after it."),
+
+      # ---------- More Technical (hard) ----------
+    ("technical", "Python", "hard",
+     "What is the GIL in Python and how does it affect multithreading?",
+     "GIL lets only one thread run Python code at a time; threads do not speed up heavy CPU work; threads are still fine when the program waits for files or network; use multiprocessing for CPU-heavy work."),
+    ("technical", "Databases", "hard",
+     "What is a database index and what is the cost of adding too many indexes?",
+     "Index works like the index of a book: finds rows fast without reading the whole table; usually built as a B-tree; makes INSERT, UPDATE and DELETE slower and uses extra space; index columns used in WHERE and JOIN."),
+    ("technical", "Web", "hard",
+     "What is the difference between authentication and authorization, and how does a session cookie work?",
+     "Authentication = who are you; authorization = what are you allowed to do; after login the server saves a session and sends a cookie; browser sends the cookie with every request; passwords must be hashed, never saved as plain text."),
+    ("technical", "Databases", "hard",
+     "What is database normalization? Explain 1NF, 2NF and 3NF in simple words.",
+     "Normalization removes repeated data by splitting tables; 1NF: one value in each cell; 2NF: every column depends on the whole key; 3NF: columns do not depend on other non-key columns; trade-off: more joins."),
+
+     # ---------- More DSA (hard) ----------
+    ("dsa", "Strings", "hard",
+     "How would you find the longest substring without repeating characters?",
+     "Use the sliding window with two pointers; keep the characters of the window in a set; when a repeat comes, move the left pointer forward; remember the longest window; O(n) time."),
+    ("dsa", "Sorting", "hard",
+     "Explain how merge sort works and why its time is O(n log n).",
+     "Split the array into halves until each has 1 element; merge the sorted halves back; there are log n levels and each level does O(n) work; needs O(n) extra space; it is stable."),
+    ("dsa", "Graphs", "hard",
+     "What is the difference between BFS and DFS, and when would you use each?",
+     "BFS uses a queue and goes level by level, so it finds the shortest path in an unweighted graph; DFS uses a stack or recursion and goes deep first, good for cycle detection and checking paths; both take O(V+E)."),
+    ("dsa", "Dynamic Programming", "hard",
+     "What is dynamic programming? Explain it with the Fibonacci example.",
+     "Break a problem into small repeated subproblems and save their answers; plain recursion for Fibonacci repeats work and takes O(2^n); memoization or a table makes it O(n); two ways: top-down and bottom-up."),
+
+     # ---------- More HR ----------
+    ("hr", "Goals", "medium",
+     "Where do you see yourself in five years?",
+     "Give a realistic and honest goal; talk about learning and growing in this role; connect it to the company; do not say you will leave soon."),
+    ("hr", "Selling yourself", "hard",
+     "Why should we hire you over other candidates?",
+     "Match your skills to the job; give one proof, like a project you built; show you learn fast; never put other candidates down."),
+    ("hr", "Conflict", "hard",
+     "Tell me about a disagreement with a teammate and how you solved it.",
+     "Use STAR; stay calm and listen to their side; talk about the problem, not the person; say what you did and what the result was."),
+    ("hr", "Pressure", "medium",
+     "How do you handle pressure or a tight deadline?",
+     "Use STAR with a real example like an exam or project deadline; plan and set priorities; ask for help early; say what you learned."),
+
+
 ]
 
 def seed_questions():
