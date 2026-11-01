@@ -32,7 +32,46 @@ function showUser(user) {
         month:"long",
     });
 }
+// Readiness gauge: fill it with real numbers from the practice history 
+// The number is  a SELF-CHECK (key points the user ticked), not an AI score 
+async function loadReadiness() {
+    try {
+        const response = await fetch("/api/attempts/summary");
+        // Any problem -> keep the "no score yet" look, nothing breaks
+        if(!response.ok) return;
+        const summary = await response.json();
 
+        // No round finished yet -> keep the default look
+        if(summary.rounds === 0) return;
+
+        const label = document.getElementById("gauge-label");
+        const note  = document.getElementById("gauge-note");
+
+        // Rounds exists, but "Show key points" was never used -> nothing to measure yet
+        if(summary.coverage_percent === null){
+            label.textContent = "no points checked";
+            note.textContent = "Click Show key points in a mock interview and tick what your answer covered.";
+            return;
+        }
+        const percent = summary.coverage_percent;
+        
+        //  the number in the middle
+        document.getElementById("gauge-value").textContent = percent + "%";
+        label.textContent = "self-check";
+
+        // Full ring length = 440, so offset 440 = empty and offset 0 = full
+        document.getElementById("gauge-fill").style.strokeDashoffset = 440 - (440 * percent) /100;
+
+        //  Screen readers read this text for the picture
+        document.querySelector(".gauge").setAttribute("aria-label",`Self-check coverage ${percent} percent`);
+
+        //  Say clearly what the number means
+        note.textContent = `Rounds: ${summary.rounds}. You ticked ${summary.points_ticked} of ${summary.points_total} key points. This is your own check, not an AI score.`;
+    } catch (error){
+        //  Server problem => keep the default look
+
+    }
+}
 
 //  Page start -> who is logged in?
 
@@ -48,6 +87,7 @@ async function loadDashboard() {
         }
         const user = await response.json();
         showUser(user);
+        loadReadiness();
     } catch (error) {
         // Server if off or network failed: 
         document.getElementById("greeting").textContent = "Cannot reach the server. Is it running?";
