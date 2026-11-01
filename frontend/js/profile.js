@@ -7,6 +7,7 @@ const customInput = document.getElementById("custom-skill");
 const addSkillBtn = document.getElementById("add-skill-btn");
 const message = document.getElementById("form-message");
 const saveBtn = form.querySelector(".save-btn");
+const nextBox = document.getElementById("next-box");   // the "what next?" box
 
 
 // Shows a message under the form (green when isSuccess is true)
@@ -166,6 +167,10 @@ form.addEventListener("submit", async(event) => {
             return;
         }
         showMessage("Profile saved!",true);
+        // Show the "what next?" box and scroll down so the user sees it
+        nextBox.hidden = false;
+        nextBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        
     } catch(error) {
         showMessage("Cannot reach the server. Is it running?",false);
     } finally {
