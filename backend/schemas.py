@@ -1,4 +1,5 @@
-from typing import Literal
+from datetime import datetime
+from typing import Literal, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 class SignupRequest(BaseModel):
@@ -56,3 +57,37 @@ class AttemptRequest(BaseModel):
         if self.points_ticked > self.points_total:
             raise ValueError("points_ticked cannot be more than points_total")
         return self
+
+
+# What the placement tracker form sends for one application
+class ApplicationRequest(BaseModel):
+    company: str = Field(min_length=1, max_length=80)
+    role: str = Field(min_length=1, max_length=80)
+
+    # Only these stages are accepted (same as dropdown)
+    status: Literal["wishlist","applied","interview","offer","rejected"]
+    # Date is optional, written like 2026-11-10 (empty means not applied yet)
+    applied_date : Optional[str] = None
+    notes: str = Field(default="", max_length=500)
+
+    # Trim spaces, and refuse a name that is only spaces
+    @field_validator("company","role")
+    @classmethod
+    def clean_text(cls,value):
+        value = value.strip()
+        if not value:
+            raise ValueError("This field cannot be empty")
+        return value
+
+    # The date must look like 2026-11-02, or empty
+    @field_validator("applied_date")
+    @classmethod
+    def check_date(cls,value):
+        if value is None or value == "":
+            return None
+        try:
+            datetime.strptime(value, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError("applied_date must look like 2026-11-02")
+        return value
+    
