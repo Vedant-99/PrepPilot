@@ -144,11 +144,11 @@ select:focus {
     font: inherit;
     cursor: pointer;
     box-shadow: 4px 4px 0 var(--ink);
-    transition: transform 0.1s,;
+    transition: transform 0.1s;
 }
 /* Button : "pressess down"  on hover */
 .save-btn:hover {
-    transform: translate(2px 2px);
+    transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 var(--ink);
 }
 
