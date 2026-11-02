@@ -11,6 +11,7 @@ from routes_profile import router as profile_router
 from routes_questions import router as questions_router
 from routes_attempts import router as attempts_router
 from seed_questions import seed_questions
+from routes_applications import router as applications_router
 
 # The frontend folder is next to the backend folder
 FRONTEND_DIR = Path(__file__).parent.parent/"frontend"
@@ -46,6 +47,9 @@ app.include_router(questions_router)
 
 # Add practice history route to the app
 app.include_router(attempts_router)
+
+# Add placement tracker route to the app
+app.include_router(applications_router)
 
 # Test route: open /api/hello to check that the server is running
 @app.get("/api/hello")
