@@ -542,3 +542,8 @@ a.tile {
     color: inherit;
     text-decoration: none;
 }
+
+/*  A finished step gets a green label, like its green tick */
+.step.done .tag {
+    background: var(--mint);
+}
