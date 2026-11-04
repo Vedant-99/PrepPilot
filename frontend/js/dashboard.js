@@ -73,8 +73,64 @@ async function loadReadiness() {
     }
 }
 
-//  Page start -> who is logged in?
 
+//  Change one step of the flight plan
+//  state is "done", "next", or "" (a normal step)
+function setStepState(stepId, state, tagText) {
+    const step = document.getElementById(stepId);
+
+    // Remove the old look first
+    step.classList.remove("done", "next");
+    
+    // Add the new look (only if a state was given)
+    if (state) {
+        step.classList.add(state);
+    }
+    
+    // Change the small label on the right (like "Up next" or "Done")
+    step.querySelector(".tag").textContent = tagText;
+}
+
+
+//  Flight plan: mark steps as done using real data
+async function loadFlightPlan() {
+    try {
+        // Ask the server two questions at the same time:
+        // 1) is the profile saved?  2) did the user finish any mock round?
+        const [profileResponse, summaryResponse] = await Promise.all([
+            fetch("/api/profile"),
+            fetch("/api/attempts/summary"),
+        ]);
+
+        // Any problem -> keep the normal look, nothing breaks
+        if (!profileResponse.ok || !summaryResponse.ok) return;
+
+        const profileData = await profileResponse.json();
+        const summary = await summaryResponse.json();
+
+        // The server sends profile: null when no profile is saved yet
+        const profileDone = profileData.profile !== null;
+        // At least one finished round means the mock interview is done
+        const mockDone = summary.rounds > 0;
+
+        if (profileDone) {
+            setStepState("step-profile", "done", "Done");
+            document.querySelector("#step-profile strong a").textContent = "Profile complete";
+            document.querySelector("#step-profile p").textContent = "You can edit your skills and target role any time.";
+        }
+
+        if (mockDone) {
+            setStepState("step-mock", "done", "Done");
+        } else if (profileDone) {
+            // Profile is done but no round yet -> the interview is the next step
+            setStepState("step-mock", "next", "Up next");
+        }
+    } catch (error) {
+        // Server problem -> keep the normal look
+    }
+}
+
+//  Page start -> who is logged in?
 async function loadDashboard() {
     try {
         // the browser sends the login cookie automatically
@@ -88,6 +144,7 @@ async function loadDashboard() {
         const user = await response.json();
         showUser(user);
         loadReadiness();
+        loadFlightPlan();
     } catch (error) {
         // Server if off or network failed: 
         document.getElementById("greeting").textContent = "Cannot reach the server. Is it running?";
