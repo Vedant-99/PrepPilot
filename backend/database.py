@@ -62,8 +62,26 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
+    # Placement tracker: one row for each job or internship application
+    # status only accepts the listed words (CHECK)
+    # applied_date is text like 2026-11-01 (can be empty if not applied yet)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS applications (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id       INTEGER NOT NULL,
+            company       TEXT NOT NULL,
+            role          TEXT NOT NULL,
+            status        TEXT NOT NULL DEFAULT 'wishlist'
+                          CHECK (status IN ('wishlist','applied','interview','offer','rejected')),
+            applied_date  TEXT,
+            notes         TEXT NOT NULL DEFAULT '',
+            created_at    TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id)  REFERENCES users(id)      
+        )
+    """)
     conn.commit()
     conn.close()
+
 
 
 # Runs only when you start this file directly(python database.py)
