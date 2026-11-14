@@ -4,46 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Placement Tracker | PrepPilot</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <!-- This page has its own look, so it does NOT use dashboard.css -->
     <link rel="stylesheet" href="css/placement-tracker.css">
 </head>
 <body>
-    <div class="layout">
+    <div class="tracker">
 
-        <!-- Sidebar: same as other pages, Placement Tracker is the active page -->
-        <aside class="sidebar">
-            <a href="index.html" class="logo">
-                <span class="logo-mark">PP</span>
+        <!-- Top bar: logo, page links and the logged-in user (no sidebar on this page) -->
+        <header class="topnav">
+            <a href="index.html" class="tn-logo">
+                <span class="tn-logo-mark">PP</span>
                 PrepPilot
             </a>
-            <nav class="menu">
-                <a href="dashboard.html" class="menu-item">Dashboard</a>
-                <a href="profile.html" class="menu-item">Profile</a>
-                <a href="mock-interview.html" class="menu-item">Mock Interview</a>
-                <span class="menu-item disabled">Resume Check<em class="soon">Soon</em></span>
-                <span class="menu-item disabled">Coding Practice<em class="soon">Soon</em></span>
-                <a href="placement-tracker.html" class="menu-item active">Placement Tracker</a>
+
+            <nav class="tn-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="profile.html">Profile</a>
+                <a href="mock-interview.html">Mock Interview</a>
+                <a href="placement-tracker.html" class="current">Placement Tracker</a>
             </nav>
 
-            <div class="user-box">
-                <div class="avatar" id="user-initials">?</div>
-                <div class="user-text">
+            <div class="tn-user">
+                <div class="tn-avatar" id="user-initials">?</div>
+                <div class="tn-user-text">
                     <strong id="user-name">Loading...</strong>
                     <span id="user-email"></span>
                 </div>
-                <button type="button" id="logout-btn" class="logout-btn">Log out</button>
+                <button type="button" id="logout-btn" class="tn-logout">Log out</button>
             </div>
-        </aside>
+        </header>
 
-        <main class="content">
-            <header class="topbar">
-                <p class="date">Your applications</p>
+        <main class="tn-main">
+
+            <!-- Big heading -->
+            <section class="tn-hero">
+                <p class="eyebrow">Your job hunt pipeline</p>
                 <h1>Placement tracker</h1>
-                <p class="subtitle">Keep every company in one place and move it forward as you progress.</p>
-            </header>
+                <p class="hero-note">Add every company you are aiming for, then move it forward stage by stage.</p>
+            </section>
 
             <!-- Form: add a new application (also used to edit one) -->
-            <form id="app-form" class="card app-form" novalidate>
+            <form id="app-form" class="quick-add" novalidate>
                 <h2 id="form-title">Add an application</h2>
 
                 <div class="form-grid">
@@ -51,10 +52,10 @@
                         <label for="company">Company</label>
                         <input type="text" id="company" maxlength="80" placeholder="e.g. Infosys">
                     </div>
-                    
+
                     <div class="field">
                         <label for="role">Role</label>
-                        <input type="text" id="role" maxlength="'80" placeholder="e.g. Python Intern">
+                        <input type="text" id="role" maxlength="80" placeholder="e.g. Python Intern">
                     </div>
 
                     <div class="field">
@@ -75,8 +76,8 @@
                 </div>
 
                 <div class="field">
-                        <label for="notes">Notes (optional)</label>
-                        <textarea id="notes" rows="2" maxlength="500" placeholder="Link, contact person, next round date..."></textarea>
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" rows="2" maxlength="500" placeholder="Link, contact person, next round date..."></textarea>
                 </div>
 
                 <!-- Error or success text appears here -->
@@ -85,30 +86,30 @@
                 <div class="form-buttons">
                     <button type="submit" id="save-app-btn" class="save-btn">Add application</button>
                     <!-- Only shown while editing: JS removes hidden -->
-                     <button type="button" id="cancel-edit-btn" class="cancel-btn" hidden>Cancel edit</button>
+                    <button type="button" id="cancel-edit-btn" class="cancel-btn" hidden>Cancel edit</button>
                 </div>
             </form>
 
-            <!-- Board: 5 columns, JS puts the cards inside the lists  -->
+            <!-- Pipeline board: 5 stages from left to right, JS puts the cards in the lists -->
             <section class="board" aria-label="Applications by stage">
                 <div class="column" data-stage="wishlist">
-                    <h3>Wishlist <span class="count" id="count-wishlist">0</span></h3>
+                    <h3><span>Wishlist</span> <span class="count" id="count-wishlist">0</span></h3>
                     <div class="column-list" id="list-wishlist"></div>
                 </div>
                 <div class="column" data-stage="applied">
-                    <h3>Applied <span class="count" id="count-applied">0</span></h3>
+                    <h3><span>Applied</span> <span class="count" id="count-applied">0</span></h3>
                     <div class="column-list" id="list-applied"></div>
                 </div>
                 <div class="column" data-stage="interview">
-                    <h3>Interview <span class="count" id="count-interview">0</span></h3>
+                    <h3><span>Interview</span> <span class="count" id="count-interview">0</span></h3>
                     <div class="column-list" id="list-interview"></div>
                 </div>
                 <div class="column" data-stage="offer">
-                    <h3>Offer <span class="count" id="count-offer">0</span></h3>
+                    <h3><span>Offer</span> <span class="count" id="count-offer">0</span></h3>
                     <div class="column-list" id="list-offer"></div>
                 </div>
                 <div class="column" data-stage="rejected">
-                    <h3>Rejected <span class="count" id="count-rejected">0</span></h3>
+                    <h3><span>Rejected</span> <span class="count" id="count-rejected">0</span></h3>
                     <div class="column-list" id="list-rejected"></div>
                 </div>
             </section>
