@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 itsdangerous
+pypdf
+python-multipart
