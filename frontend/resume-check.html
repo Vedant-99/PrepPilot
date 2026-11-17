@@ -67,12 +67,36 @@
             <label class="paper" id="dropzone" for="resume-file">
                 <input type="file" id="resume-file" accept=".pdf,application/pdf">
 
-                <!-- Fake text lines, only to make it look like a document -->
-                <span class="line l1"></span>
-                <span class="line l2"></span>
-                <span class="line l3"></span>
-                <span class="line l4"></span>
-                <span class="line l5"></span>
+            <!-- Fake resume, only for looks: photo, name, sections and skill pills -->
+            <span class="fake-resume" aria-hidden="true">
+                <span class="fake-head">
+                    <span class="fake-photo"></span>
+                    <span class="fake-name">
+                         <span class="fl thick w60"></span>
+                        <span class="fl w40"></span>
+                    </span>
+                </span>
+
+                <span class="fake-section">
+                    <span class="fl accent w30"></span>
+                    <span class="fl w100"></span>
+                    <span class="fl w85"></span>
+                    <span class="fl w70"></span>
+                </span>
+
+                <span class="fake-section">
+                    <span class="fl accent w30"></span>
+                    <span class="fl w100"></span>
+                    <span class="fl w90"></span>
+                </span>
+
+                <span class="fake-section">
+                    <span class="fl accent w30"></span>
+                    <span class="fake-tags">
+                        <span class="ft"></span><span class="ft"></span><span class="ft"></span><span class="ft"></span>
+                    </span>
+                </span>
+            </span>
 
                 <!-- The laser: resume-check.js adds the class "scanning" to the paper to move it -->
                 <span class="laser" aria-hidden="true"></span>
