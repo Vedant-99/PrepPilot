@@ -340,20 +340,74 @@ select:focus {
 .paper.has-file {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 3px var(--accent), 0 0 44px rgba(46, 242, 198, 0.35);
 }
-
-/* Fake text lines, only to make the paper look like a document */
-.line {
+/* The fake resume: a photo, a name, sections and skill pills (looks only) */
+.fake-resume {
     position: absolute;
-    left: 12%;
-    height: 9px;
-    border-radius: 5px;
+    top: 22px;
+    left: 22px;
+    right: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.fake-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.fake-photo {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    opacity: 0.75;
+}
+
+.fake-name {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fake-section {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+/* fl = one fake line. The w numbers set how long it is. */
+.fl {
+    display: block;
+    height: 8px;
+    border-radius: 4px;
     background: rgba(28, 32, 64, 0.15);
 }
-.l1 { top: 10%; width: 46%; height: 14px; background: rgba(28, 32, 64, 0.28); }
-.l2 { top: 21%; width: 76%; }
-.l3 { top: 30%; width: 64%; }
-.l4 { top: 39%; width: 72%; }
-.l5 { top: 48%; width: 40%; }
+.fl.thick  { height: 13px; background: rgba(28, 32, 64, 0.3); }
+.fl.accent { height: 9px;  background: rgba(124, 92, 255, 0.45); }   /* section title */
+.w30  { width: 30%; }
+.w40  { width: 40%; }
+.w60  { width: 60%; }
+.w70  { width: 70%; }
+.w85  { width: 85%; }
+.w90  { width: 90%; }
+.w100 { width: 100%; }
+
+.fake-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ft {
+    width: 46px;
+    height: 16px;
+    border-radius: 999px;
+    background: rgba(46, 242, 198, 0.35);
+}
 
 /* The scanning laser: hidden until the JS adds the class "scanning" to the paper */
 .laser {
@@ -383,6 +437,10 @@ select:focus {
     flex-direction: column;
     align-items: center;
     gap: 6px;
+    width: 100%;
+    padding: 14px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.88);
     text-align: center;
 }
 
