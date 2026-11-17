@@ -534,7 +534,6 @@ a{
 a.tile {
     color: inherit;           /* no blue link color */
     text-decoration: none;    /* no underline */
-    display: block;           /* fills the tile area like a div did */
 }
 
 /* Mock interview in the flight plan looks like the profile step link */
@@ -546,4 +545,49 @@ a.tile {
 /*  A finished step gets a green label, like its green tick */
 .step.done .tag {
     background: var(--mint);
+}
+/* "Ready" gets a white box with a border and a small hard shadow, like the cards */
+.tile .tag:not(.muted) {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--card);
+    box-shadow: 2px 2px 0 var(--ink);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+/* The green dot (kept) */
+.tile .tag:not(.muted)::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: #1b9e57;      /* green dot = ready to use */
+}
+
+/* The arrow (kept) */
+.tile .tag:not(.muted)::after {
+    content: "\2192";
+    margin-left: 8px;
+    transition: transform 0.15s;
+}
+
+/* When the mouse is on the tile, the arrow moves a little to the right */
+a.tile:hover .tag:not(.muted)::after {
+    transform: translateX(4px);
+}
+/* A tile you can open lifts up a little when the mouse is on it */
+a.tile {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+a.tile:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
 }
