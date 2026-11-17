@@ -1,0 +1,564 @@
+/* ---------- Colors saved once, used everywhere ---------- */
+:root {
+    --bg: #07080f;                     /* almost black */
+    --panel: rgba(14, 18, 34, 0.72);   /* glass panels */
+    --line: rgba(255, 255, 255, 0.12);
+    --text: #e8ecff;
+    --muted: #8b92b8;
+    --accent: #2ef2c6;                 /* neon mint, the scanner color */
+    --accent2: #7c5cff;                /* violet, second color */
+    --danger: #ff6b8b;                 /* error text */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* The word "hidden" must always win, even when other CSS says "show" */
+[hidden] {
+    display: none !important;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ---------- The space behind everything (decoration only) ---------- */
+.space {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Soft colored light in the corners */
+.glow {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(700px 400px at 20% 10%, rgba(124, 92, 255, 0.28), transparent 70%),
+        radial-gradient(700px 400px at 85% 25%, rgba(46, 242, 198, 0.16), transparent 70%);
+}
+
+/* The 3D grid floor: a flat grid tilted back, so it looks like a road going away */
+.floor {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    bottom: -8%;
+    height: 65%;
+    background-image:
+        linear-gradient(rgba(46, 242, 198, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 242, 198, 0.35) 1px, transparent 1px);
+    background-size: 64px 64px;
+    transform: perspective(420px) rotateX(64deg);
+    transform-origin: center bottom;
+    -webkit-mask-image: linear-gradient(to top, #000 15%, transparent 95%);
+    mask-image: linear-gradient(to top, #000 15%, transparent 95%);
+    animation: floor-move 3s linear infinite;
+}
+
+/* Moving the grid by one square makes the floor look like it is flowing toward you */
+@keyframes floor-move {
+    from { background-position: 0 0; }
+    to   { background-position: 0 64px; }
+}
+
+/* ---------- Top bar ---------- */
+.rc-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 32px;
+    background: rgba(7, 8, 15, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+
+.rc-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.rc-logo-mark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #04130f;
+    font-size: 13px;
+}
+
+.rc-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.rc-links a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.rc-links a:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* The page we are on right now */
+.rc-links a.current {
+    color: #04130f;
+    background: var(--accent);
+}
+
+.rc-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 240px;
+}
+
+/* A long name gets "..." instead of breaking the bar */
+.rc-user strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.rc-logout {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.rc-logout:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ---------- Main area (perspective gives the 3D depth to the scene inside) ---------- */
+.rc-main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 28px 80px;
+    perspective: 1400px;
+}
+
+.rc-hero {
+    margin-bottom: 44px;
+    text-align: center;
+}
+
+.rc-eyebrow {
+    margin-bottom: 10px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.rc-hero h1 {
+    max-width: 760px;
+    margin: 0 auto 12px;
+    font-size: 44px;
+    line-height: 1.12;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, #ffffff, var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.rc-hero p {
+    color: var(--muted);
+}
+
+/* ---------- The 3D scene: 3 parts side by side, at different depths ---------- */
+.scene {
+    display: grid;
+    grid-template-columns: 1fr minmax(280px, 360px) 1fr;
+    gap: 30px;
+    align-items: center;
+    transform-style: preserve-3d;
+    /* resume-check.js sets --rx and --ry when the mouse moves */
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.2s ease-out;
+}
+
+/* Glass panels float a little in front of the scene */
+.panel {
+    padding: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    transform: translateZ(40px);
+}
+
+.panel h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.step-num {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #04130f;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+/* The dropdown list itself needs its own dark color */
+select option {
+    background: #10142a;
+    color: var(--text);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(46, 242, 198, 0.2);
+}
+
+.promises {
+    margin-top: 20px;
+    list-style: none;
+}
+
+.promises li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.promises li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 800;
+}
+
+/* ---------- The 3D paper (the upload box) ---------- */
+.paper {
+    position: relative;
+    display: flex;
+    align-items: flex-end;        /* text sits at the bottom, under the fake lines */
+    justify-content: center;
+    min-height: 400px;
+    padding: 24px 18px;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #f6f8ff, #d6dcfa);
+    color: #1c2040;
+    overflow: hidden;             /* keeps the laser inside the paper */
+    cursor: pointer;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 44px rgba(46, 242, 198, 0.2);
+    transform: translateZ(80px);  /* the paper floats closest to you */
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Slow up and down floating (translateZ stays so the depth stays) */
+@keyframes float {
+    0%, 100% { transform: translateZ(80px) translateY(0); }
+    50%      { transform: translateZ(80px) translateY(-10px); }
+}
+
+/* The real file input is hidden, the whole paper is the button */
+.paper input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Keyboard users still see which box is selected */
+.paper:focus-within {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* A file is being dragged over the paper */
+.paper.dragover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 4px var(--accent), 0 0 60px rgba(46, 242, 198, 0.5);
+}
+
+/* A file was chosen */
+.paper.has-file {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 3px var(--accent), 0 0 44px rgba(46, 242, 198, 0.35);
+}
+
+/* Fake text lines, only to make the paper look like a document */
+.line {
+    position: absolute;
+    left: 12%;
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(28, 32, 64, 0.15);
+}
+.l1 { top: 10%; width: 46%; height: 14px; background: rgba(28, 32, 64, 0.28); }
+.l2 { top: 21%; width: 76%; }
+.l3 { top: 30%; width: 64%; }
+.l4 { top: 39%; width: 72%; }
+.l5 { top: 48%; width: 40%; }
+
+/* The scanning laser: hidden until the JS adds the class "scanning" to the paper */
+.laser {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 18px 6px rgba(46, 242, 198, 0.7);
+    opacity: 0;
+}
+
+.paper.scanning .laser {
+    opacity: 1;
+    animation: scan 1.4s ease-in-out infinite;
+}
+
+@keyframes scan {
+    0%, 100% { top: 0; }
+    50%      { top: calc(100% - 3px); }
+}
+
+.paper-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.paper-text strong {
+    font-size: 18px;
+}
+
+.drop-hint {
+    font-size: 13px;
+    color: #4a507a;
+}
+
+.file-name {
+    max-width: 100%;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f7a64;
+    word-break: break-word;
+}
+
+/* ---------- The scan button and messages ---------- */
+.check-message {
+    min-height: 22px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--danger);
+}
+
+/* JS adds "success" for messages that are not errors, like "Scanning..." */
+.check-message.success {
+    color: var(--accent);
+}
+
+.check-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(90deg, var(--accent), #6ef7de);
+    color: #04130f;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 0 28px rgba(46, 242, 198, 0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.check-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(46, 242, 198, 0.5);
+}
+
+/* While scanning, JS turns the button off */
+.check-btn:disabled {
+    opacity: 0.55;
+    cursor: wait;
+    transform: none;
+}
+
+/* ---------- The result ---------- */
+.result {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    animation: fade-up 0.5s ease;
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.result h3 {
+    font-size: 16px;
+    color: var(--muted);
+}
+
+.result-summary {
+    margin: 4px 0 16px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.result-block {
+    margin-bottom: 16px;
+}
+
+.result-block h4 {
+    margin-bottom: 8px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* One skill: JS creates these. --i is the number of the chip, used for the pop-in delay */
+.chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0;
+    animation: pop-in 0.4s ease forwards;
+    animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes pop-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.85); }
+    to   { opacity: 1; transform: none; }
+}
+
+.chip.found {
+    border: 1px solid var(--accent);
+    background: rgba(46, 242, 198, 0.14);
+    color: var(--accent);
+    box-shadow: 0 0 14px rgba(46, 242, 198, 0.25);
+}
+
+.chip.missing {
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    color: var(--muted);
+}
+
+.result-note {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ---------- Tablet and phone: one column, no 3D tilt ---------- */
+@media (max-width: 980px) {
+    .rc-bar {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+    .rc-hero h1 {
+        font-size: 32px;
+    }
+    .rc-main {
+        padding: 28px 16px 60px;
+    }
+    .scene {
+        grid-template-columns: 1fr;
+        transform: none !important;
+    }
+    .panel {
+        transform: none;
+    }
+    .paper {
+        min-height: 320px;
+        animation: none;
+        transform: none;
+    }
+}
+
+/* ---------- For people who turned motion down in their device settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .floor,
+    .paper,
+    .result,
+    .paper.scanning .laser {
+        animation: none;
+    }
+    .chip {
+        animation: none;
+        opacity: 1;
+    }
+    .scene {
+        transform: none !important;
+    }
+}
