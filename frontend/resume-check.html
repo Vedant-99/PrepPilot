@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Scanner | PrepPilot</title>
+    <link rel="stylesheet" href="css/resume.css">
+</head>
+<body>
+    <!-- The grid floor and the glow behind everything -->
+     <div class="space" aria-hidden="true">
+        <div class="glow"></div>
+        <div class="floor"></div>
+     </div>
+
+     <!-- Top Bar: logo, links and the looged-in user -->
+      <header class="rc-bar">
+        <a href="index.html" class="rc-logo">
+            <span class="rc-logo-mark">PP</span>
+            PrepPilot
+        </a>
+
+        <nav class="rc-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="mock-interview.html">Mock Interview</a>
+            <a href="placement-tracker.html">Placement Tracker</a>
+            <a href="resume-check.html" class="current">Resume Scanner</a>
+        </nav>
+
+        <div class="rc-user">
+            <strong id="user-name">Loading...</strong>
+            <button type="button" id="logout-btn" class="rc-logout">Log out</button>
+        </div>
+      </header>
+     <main class="rc-main">
+
+        <!-- Title -->
+        <section class="rc-hero">
+            <p class="rc-eyebrow">Resume scanner</p>
+            <h1>Scan your resume against your dream role</h1>
+            <p>Pick a role, drop your PDF, and see which skills are found and which are missing.</p>
+        </section>
+
+        <!-- The 3D scene: resume-check.js tilts this when the mouse moves -->
+        <section class="scene" id="scene">
+
+            <!-- Left panel (floats in front): choose the role -->
+            <div class="panel panel-role">
+                <h2><span class="step-num">1</span> Target role</h2>
+                <select id="target-role">
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                </select>
+
+                <ul class="promises">
+                    <li>Your PDF is read once and never saved.</li>
+                    <li>A simple skill match, not an AI score.</li>
+                    <li>Needs a PDF with selectable text, not a scanned photo.</li>
+                </ul>
+            </div>
+
+            <!-- Middle: the 3D paper. It is a label, so clicking it opens the file picker -->
+            <label class="paper" id="dropzone" for="resume-file">
+                <input type="file" id="resume-file" accept=".pdf,application/pdf">
+
+                <!-- Fake text lines, only to make it look like a document -->
+                <span class="line l1"></span>
+                <span class="line l2"></span>
+                <span class="line l3"></span>
+                <span class="line l4"></span>
+                <span class="line l5"></span>
+
+                <!-- The laser: resume-check.js adds the class "scanning" to the paper to move it -->
+                <span class="laser" aria-hidden="true"></span>
+
+                <span class="paper-text">
+                    <strong>Drop your resume PDF</strong>
+                    <span class="drop-hint">or click to choose, PDF up to 2 MB</span>
+                    <span class="file-name" id="file-name">No file chosen yet</span>
+                </span>
+            </label>
+
+            <!-- Right panel: the button, messages and the result -->
+            <div class="panel panel-result">
+                <h2><span class="step-num">2</span> Scan</h2>
+
+                <!-- Errors and "Scanning..." show here -->
+                <p id="check-message" class="check-message"></p>
+
+                <button type="button" id="check-btn" class="check-btn">Scan my resume</button>
+
+                <!-- Result: hidden until the scan is done, then resume-check.js shows it -->
+                <div class="result" id="result-card" hidden>
+                    <h3 id="result-title">Your result</h3>
+                    <p class="result-summary" id="result-summary"></p>
+
+                    <div class="result-block">
+                        <h4>Found in your resume</h4>
+                        <div class="skill-chips" id="found-list"></div>
+                    </div>
+
+                    <div class="result-block">
+                        <h4>Missing for this role</h4>
+                        <div class="skill-chips" id="missing-list"></div>
+                    </div>
+
+                    <p class="result-note" id="result-note"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="js/resume-check.js"></script> 
+    
+</body>
+</html>
