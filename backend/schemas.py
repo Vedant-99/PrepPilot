@@ -90,4 +90,27 @@ class ApplicationRequest(BaseModel):
         except ValueError:
             raise ValueError("applied_date must look like 2026-11-02")
         return value
-    
+
+
+# What the resume check page sends: the target role and pasted resume text
+class ResumeRequest(BaseModel):
+    # Only these roles are accepted (same as the profile dropdown)
+    target_role: Literal[
+        "Frontend Developer",
+        "Backend Developer",
+        "Full Stack Developer",
+        "Software Engineer",
+        "Data Analyst",
+    ]
+
+    # A real resume has more than a few words, and 20000 letters is plenty
+    resume_text : str = Field(max_length=20000)
+
+    # Trim spaces and refuse a text that is too short to be a resume
+    @field_validator("resume_text")
+    @classmethod
+    def check_text(cls,value):
+        value = value.strip()
+        if len(value) < 30:
+            raise ValueError("Please paste your full resume text")
+        return value
